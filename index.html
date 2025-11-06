@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autômato de uma pilha</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <script src="index.js" defer></script>
 </head>
 <body>
@@ -16,7 +16,7 @@
         </div>
         <div>
             <label for="states">Lista de Estados:</label>
-            <input type="text" id="states" name="states" placeholder="q0,q1,q2,...">
+            <input type="text" id="states" name="states" placeholder="q0,q1,q2,..." >
             <span id="states-preview"></span>
 
         </div>
@@ -32,6 +32,10 @@
             <label for="alphabet">Alfabeto da pilha: </label>
             <input type="text" id="alphabet" name="alphabet" placeholder="A,B,C,...">
         </div>
-        <button type="submit">Criar Autômato</button>
+        <div>
+            <label for="transactions">Tabela de transição:</label>
+            <div id="transition-table"></div>
+        </div>
+        <button type="submit">Iniciar Computação</button>
     </form>
 

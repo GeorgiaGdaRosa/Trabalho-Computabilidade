@@ -1,0 +1,15 @@
+.div-transition-table{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+.div-states-transition-inputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rebeccapurple;
+    margin-bottom: 20px;
+}
+.state-label{
+}
