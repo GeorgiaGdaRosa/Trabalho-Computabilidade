@@ -1,3 +1,42 @@
+.div-form{
+    display: flex;
+    flex-direction: column;
+}
+
+label{
+    margin: 8px 5px;
+}
+
+.input{
+    padding: 8px;
+    width: 15vw;
+    margin-bottom: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.336);
+    border-radius: 10px;
+}
+
+#transactions{
+    margin-bottom: 12px;
+    display: flex;
+}
+
+.div-span{
+    display: block;
+}
+
+button{
+    padding: 8px;
+    border: 1px solid #36125b;
+    border-radius: 5px;
+    background-color: #663399;
+    transition: 0.3s;
+}
+
+button:hover{
+    color: white;
+    background-color: #36125b;
+}
+
 .div-transition-table{
     display: flex;
     flex-direction: row;
@@ -11,5 +50,11 @@
     background-color: rebeccapurple;
     margin-bottom: 20px;
 }
+
+.div-states-transition-inputs input{
+    padding: 5px;
+}
+
+
 .state-label{
 }

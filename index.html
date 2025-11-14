@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,36 +8,42 @@
     <link rel="stylesheet" href="style.css">
     <script src="index.js" defer></script>
 </head>
-<body>
-    <form action="">
-        <div>
-            <label for="entries">Alfabeto de Entrada:</label>
-            <input type="text" id="entries" name="entries" placeholder="a,a,b,...">
-            <span id="entries-preview"></span>
-        </div>
-        <div>
-            <label for="states">Lista de Estados:</label>
-            <input type="text" id="states" name="states" placeholder="q0,q1,q2,..." >
-            <span id="states-preview"></span>
 
+<body>
+    <h1>Simulador de autômato de uma pilha</h1>
+    <form action="">
+        <div class="div-form">
+            <label for="entries">Alfabeto de Entrada:</label>
+            <div class="div-span">
+                <input class="input" type="text" id="entries" name="entries" placeholder="a,a,b,...">
+                <span id="entries-preview"></span>
+            </div>
         </div>
-        <div>
+        <div class="div-form">
+            <label for="states">Lista de Estados:</label>
+            <div class="div-span">
+                <input class="input" type="text" id="states" name="states" placeholder="q0,q1,q2,...">
+                <span id="states-preview"></span>
+            </div>
+        </div>
+        <div class="div-form">
             <label for="first-state">Estado Inicial</label>
-            <input type="text" id="first-state" name="first-state" placeholder="q0">
+            <input class="input" type="text" id="first-state" name="first-state" placeholder="q0">
         </div>
-        <div>
+        <div class="div-form">
             <label for="final-states">Estado(s) Final(is):</label>
-            <input type="text" id="final-states" name="final-states" placeholder="q4,q5">
+            <input class="input" type="text" id="final-states" name="final-states" placeholder="q4,q5">
         </div>
-        <div>
+        <div class="div-form">
             <label for="alphabet">Alfabeto da pilha: </label>
-            <input type="text" id="stack-alphabet" name="alphabet" placeholder="A,B,C,...">
-            <span id = "stack-alphabet-preview"></span>
+            <div class="div-span">
+            <input class="input" type="text" id="stack-alphabet" name="alphabet" placeholder="A,B,C,...">
+            <span id="stack-alphabet-preview"></span>
+            </div>
         </div>
         <div>
-            <label for="transactions">Tabela de transição:</label>
+            <label id="transactions" for="transactions">Tabela de transição:</label>
             <div id="transition-table"></div>
         </div>
         <button type="submit">Iniciar Computação</button>
     </form>
-
