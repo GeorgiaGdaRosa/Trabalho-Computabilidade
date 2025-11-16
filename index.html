@@ -6,12 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autômato de uma pilha</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>    
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: false, // renderizar via javascript
+            theme: 'default',
+            securityLevel: 'loose'
+        });
+    </script>
     <script src="index.js" defer></script>
 </head>
 
 <body>
     <h1>Simulador de autômato de uma pilha</h1>
-    <form action="">
+    <form action="" id="form">
         <div class="div-form">
             <label for="entries">Alfabeto de Entrada:</label>
             <div class="div-span">
@@ -42,8 +50,17 @@
             </div>
         </div>
         <div>
-            <label id="transactions" for="transactions">Tabela de transição:</label>
-            <div id="transition-table"></div>
+            <label id="transactions" for="transactions">Tabela de Transição:</label>
+            
+            <button type="button" id="btn-add-transitions">Adicionar Transição (+)</button>
+
+            <div id="transition-table">
+                </div>
         </div>
-        <button type="submit">Iniciar Computação</button>
     </form>
+    <button type="submit" form="form">Iniciar Computação</button>
+
+
+    <br>
+    <h2>Vizualização do autômato</h2>
+    <div id="pda-graph" class="mermaid"></div>
