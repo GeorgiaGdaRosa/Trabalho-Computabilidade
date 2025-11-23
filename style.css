@@ -21,7 +21,9 @@ label{
 }
 
 .div-span{
-    display: block;
+    display: flex;
+    gap: 200px;
+    align-items: center;
 }
 
 button{
@@ -55,6 +57,58 @@ button:hover{
     padding: 5px;
 }
 
+#entries-preview {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+    margin-bottom: 20px; 
+    padding-bottom: 25px; 
+    flex-wrap: wrap;
+}
+
+
+.tape-cell {
+    position: relative; 
+    background-color: #5b9bd5; 
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-family: monospace;
+    border: 1px solid #4178be;
+    border-radius: 3px;
+    min-width: 20px;
+    text-align: center;
+    transition: all 0.3s ease; 
+}
+
+
+
+.tape-cell.active-head {
+    background-color: #2b5797; 
+    transform: translateY(-5px); 
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+
+.tape-cell.active-head::after {
+    content: '';
+    position: absolute;
+    
+   
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%);
+    
+    
+    margin-top: 5px; 
+    
+  
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;   
+    border-right: 10px solid transparent;  
+    border-bottom: 15px solid #2b5797;     
+}
 
 .state-label{
 }

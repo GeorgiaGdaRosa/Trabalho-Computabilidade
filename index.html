@@ -21,7 +21,7 @@
     <h1>Simulador de autômato de uma pilha</h1>
     <form action="" id="form">
         <div class="div-form">
-            <label for="entries">Alfabeto de Entrada:</label>
+            <label for="entries">Alfabeto de Entrada ("?" para vazio):</label>
             <div class="div-span">
                 <input class="input" type="text" id="entries" name="entries" placeholder="a,a,b,...">
                 <span id="entries-preview"></span>
@@ -51,11 +51,18 @@
         </div>
         <div>
             <label id="transactions" for="transactions">Tabela de Transição:</label>
-            
             <button type="button" id="btn-add-transitions">Adicionar Transição (+)</button>
+            <div id="transition-table"></div>
+        </div>
 
-            <div id="transition-table">
-                </div>
+        <div id="step-controls" style="display: none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9;">
+            <h3>Controle de Execução</h3>
+            <p>Estado Atual: <strong id="current-state-display">-</strong> | Pilha: <strong id="current-stack-display">[]</strong></p>
+            
+            <button type="button" id="btn-next-step" style="background-color: #2b5797; color: white; padding: 10px 20px; cursor: pointer;">
+                Próximo Passo >>
+            </button>
+            <p id="step-message" style="margin-top: 10px; font-style: italic;"></p>
         </div>
     </form>
     <button type="submit" form="form">Iniciar Computação</button>
@@ -64,3 +71,4 @@
     <br>
     <h2>Vizualização do autômato</h2>
     <div id="pda-graph" class="mermaid"></div>
+    <span id="computing-result"></span>
