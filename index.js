@@ -5,7 +5,7 @@ const currentStackDisplay = document.getElementById('current-stack-display');
 const stepMessage = document.getElementById('step-message');
 const computingResult = document.getElementById('computing-result');
 const entriesInput = document.getElementById('entries');
-const entriesPreview = document.getElementById('entries-preview');
+const tapeVisualContainer = document.getElementById('tape-visual-container');
 const statesInput = document.getElementById('states');
 const statesPreview = document.getElementById('states-preview');
 const firstStateInput = document.getElementById('first-state');
@@ -28,7 +28,8 @@ let tapeInputs = [];
 let stackInputs = [];
 let states = [];
 
-function initializeSimulation(){
+
+function initializeSimulation(){// Chamada quando o usuário clica em "Iniciar Computação". Ela prepara o ambiente para começar. 
     simState = firstStateInput.value.trim();
     simStack = [];
     simIndex = 0;
@@ -48,9 +49,11 @@ function initializeSimulation(){
     if (domCells.length > 0) {
         domCells[0].classList.add('active-head');
     }
+
+    updateVisualStack();
 }
 
-function performNextStep() {
+function performNextStep() {// Executada a cada clique em "Próximo Passo". Realiza um ciclo de computação do autômato. 
     if (!simRunning) return;
 
     const domCells = document.querySelectorAll('.tape-cell');
@@ -73,10 +76,8 @@ function performNextStep() {
         if (t.read === 'ε') {
             inputMatch = true; 
         } else {
-            
             inputMatch = (t.read === symbolRead); 
         }
-
  
         let stackMatch = false;
         
@@ -91,9 +92,8 @@ function performNextStep() {
         return inputMatch && stackMatch;
     });
 
-    
     if (!transition) {
-        stepMessage.innerHTML = `❌ Travou em <b>${simState}</b>.<br>
+        stepMessage.innerHTML = ` Travou em <b>${simState}</b>.<br>
         Leu: <b>'${symbolRead}'</b> | Topo Pilha: <b>'${stackTop || 'Vazia'}'</b>.<br>
         Não há regra definida para isso.`;
         stepMessage.style.color = "red";
@@ -103,7 +103,7 @@ function performNextStep() {
     }
 
     const oldState = simState;
-    simState = transition.nextState;
+    simState = transition.nextState; // atualiza o estado
 
     if (transition.pop !== 'ε' && transition.pop !== '?') {
         simStack.pop();
@@ -115,6 +115,8 @@ function performNextStep() {
 
     currentStateDisplay.textContent = simState;
     currentStackDisplay.textContent = simStack.length > 0 ? `[${simStack.join(', ')}]` : '[Vazia]';
+
+    updateVisualStack();
     
     let actionDesc = `De ${oldState} -> ${simState}.`;
 
@@ -127,7 +129,7 @@ function performNextStep() {
             domCells[simIndex].classList.add('active-head');
         }
         
-        const visualSymbol = symbolRead === '?' ? '[Branco]' : `'${symbolRead}'`;
+        const visualSymbol = symbolRead === '?' ? '[Vazio]' : `'${symbolRead}'`;
         actionDesc += ` (Leu ${visualSymbol})`;
     } else {
         actionDesc += ` (Movimento Vazio - Fita parada)`;
@@ -136,14 +138,14 @@ function performNextStep() {
     stepMessage.textContent = actionDesc;
 }
 
-function finishSimulation() {
+function finishSimulation() { // Chamada quando a fita de entrada termina.
     const finalStates = finalStatesInput.value.split(',').map(s => s.trim());
         
     if (finalStates.includes(simState)) {
-        stepMessage.innerHTML = "✅ <b>ACEITA!</b> A cadeia foi consumida e o autômato parou em estado final.";
+        stepMessage.innerHTML = " <b>ACEITA!</b> A cadeia foi consumida e o autômato parou em estado final.";
         stepMessage.style.color = "green";
     } else {
-        stepMessage.innerHTML = `❌ <b>REJEITA.</b> A cadeia acabou mas o estado <b>${simState}</b> não é final.`;
+        stepMessage.innerHTML = ` <b>REJEITA.</b> A cadeia acabou mas o estado <b>${simState}</b> não é final.`;
         stepMessage.style.color = "red";
     }
 
@@ -153,9 +155,7 @@ function finishSimulation() {
     document.querySelectorAll('.tape-cell').forEach(c => c.classList.remove('active-head'));
 }
 
-
-
-function getTapeAlphabet(){
+function getTapeAlphabet(){ // Event Listeners que rodam enquanto se digita nos campos de configuração.
     const rawValue = entriesInput.value;
 
     const symbols = rawValue.split(',')
@@ -165,7 +165,7 @@ function getTapeAlphabet(){
     //tapeInputs = [...new Set(symbols)];
     tapeInputs = symbols;
 
-    entriesPreview.innerHTML = '';
+    tapeVisualContainer.innerHTML = '';
 
     if(tapeInputs.length > 0){
         tapeInputs.forEach(input => {
@@ -176,14 +176,14 @@ function getTapeAlphabet(){
             } else {
                 cell.textContent = input;
             }
-            entriesPreview.appendChild(cell);
+            tapeVisualContainer.appendChild(cell);
         })
     }else{
-        entriesPreview.textContent = '';
+        tapeVisualContainer.textContent = '';
     }
 }
 
-function getStackAlphabet(){
+function getStackAlphabet(){ // Event Listeners que rodam enquanto se digita nos campos de configuração.
     const rawValue = stackAlphabetInput.value;
     
     const symbols = rawValue.split(',')
@@ -199,7 +199,7 @@ function getStackAlphabet(){
     }
 }
 
-function showStatesPreview(){
+function showStatesPreview(){ // Event Listeners que rodam enquanto se digita nos campos de configuração.
     const rawValue = statesInput.value;
 
     const symbols = rawValue.split(',')
@@ -220,7 +220,7 @@ function showStatesPreview(){
 
 
 
-function addTransition(){
+function addTransition(){ //Controlam a criação dinâmica das regras na parte inferior da tela.
     const transitionId = Date.now();
 
     const newTransition = {
@@ -276,7 +276,7 @@ function addTransition(){
     row.querySelector('.btn-remove-transition').addEventListener('click', removeTransition);
 }
 
-function removeTransition(event) {
+function removeTransition(event) { //Controlam a criação dinâmica das regras na parte inferior da tela.
     const transitionId = parseInt(event.target.dataset.transitionId);
     
     const index = transitions.findIndex(t => t.id === transitionId);
@@ -289,7 +289,7 @@ function removeTransition(event) {
     console.log('Transição removida. Estado atual:', transitions);
 }
 
-function updateTransition(event){
+function updateTransition(event){ //Controlam a criação dinâmica das regras na parte inferior da tela.
     const field = event.target.dataset.field;
     const transitionId = parseInt(event.target.dataset.transitionId);
     const value = event.target.value.trim();
@@ -300,11 +300,10 @@ function updateTransition(event){
         transition[field] = value;
     }
     
-
     console.log(transitions);
 }
 
-function generateMermaidString(){
+function generateMermaidString(){ //Geração do grafo
     let mermaid = 'graph LR\n';
 
     const statesRaw = statesInput.value.split(',').map(s => s.trim()).filter(s => s);
@@ -339,9 +338,7 @@ function generateMermaidString(){
     return mermaid;
 }
 
-
-
-async function renderGraph(){
+async function renderGraph(){ // Renderização do grafo
     let mermaidString = generateMermaidString();
 
     pdaGraphDiv.innerHTML = '';
@@ -375,31 +372,14 @@ document.querySelector('form').addEventListener('submit', function(event){
 });
 
 
-function accpetOrReject(){
+function updateVisualStack() { // Limpa o container da pilha visual.
+    const container = document.getElementById('stack-visual-container');
+    container.innerHTML = ''; 
 
-    const firstState = firstStateInput.value.trim();
-    let firstTransition = transitions.filter(t => t.state === firstState && t.read == tapeInputs[0] && t.pop === "ε" && stackInputs.includes(t.push));
-    if(firstTransition == null || !firstTransition){
-        computingResult.innerHTML = '<p>Rejeita.</p>';
-        return;
-    }
-    
-
-    let currentTapeInput = tapeInputs[0];
-    let currentTransition = firstTransition;
-    let currentStack = [];
-
-    for(let i = 1; i < tapeInputs.length; i++){
-        //flecha vai para proximo na fita
-        currentTapeInput = tapeInputs[i];
-        currentTransition = transitions.filter(t => t.read == currentTapeInput && (t.pop == "ε" || t.pop == currentStack[currentStack.length]));
-        if(currentTransition == null || !currentTransition){
-            computingResult.innerHTML = '<p>Rejeita.</p>';
-            return;
-            //sai do loop
-        }
-        currentStack.appendChild(currentTransition.push);
-    }
-    computingResult.innerHTML = '<p>Aceita.</p>';
-
+    simStack.forEach(symbol => {
+        const block = document.createElement('div');
+        block.className = 'stack-block';
+        block.textContent = symbol;
+        container.appendChild(block);
+    });
 }

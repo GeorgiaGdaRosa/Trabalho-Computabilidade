@@ -6,69 +6,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autômato de uma pilha</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>    
-    <script>
-        mermaid.initialize({ 
-            startOnLoad: false, // renderizar via javascript
-            theme: 'default',
-            securityLevel: 'loose'
-        });
-    </script>
     <script src="index.js" defer></script>
 </head>
 
 <body>
-    <h1>Simulador de autômato de uma pilha</h1>
-    <form action="" id="form">
-        <div class="div-form">
-            <label for="entries">Alfabeto de Entrada ("?" para vazio):</label>
-            <div class="div-span">
-                <input class="input" type="text" id="entries" name="entries" placeholder="a,a,b,...">
-                <span id="entries-preview"></span>
-            </div>
-        </div>
-        <div class="div-form">
-            <label for="states">Lista de Estados:</label>
-            <div class="div-span">
-                <input class="input" type="text" id="states" name="states" placeholder="q0,q1,q2,...">
-                <span id="states-preview"></span>
-            </div>
-        </div>
-        <div class="div-form">
-            <label for="first-state">Estado Inicial</label>
-            <input class="input" type="text" id="first-state" name="first-state" placeholder="q0">
-        </div>
-        <div class="div-form">
-            <label for="final-states">Estado(s) Final(is):</label>
-            <input class="input" type="text" id="final-states" name="final-states" placeholder="q4,q5">
-        </div>
-        <div class="div-form">
-            <label for="alphabet">Alfabeto da pilha: </label>
-            <div class="div-span">
-            <input class="input" type="text" id="stack-alphabet" name="alphabet" placeholder="A,B,C,...">
-            <span id="stack-alphabet-preview"></span>
-            </div>
-        </div>
-        <div>
-            <label id="transactions" for="transactions">Tabela de Transição:</label>
-            <button type="button" id="btn-add-transitions">Adicionar Transição (+)</button>
-            <div id="transition-table"></div>
-        </div>
+    <div class="main-container">
+        <aside class="left-panel">
+            <h2>Configurações</h2>
+            <form id="pda-form">
+                <div class="form-group">
+                    <label for="entries">Fita de Entrada:</label>
+                    <input class="input-dark" type="text" id="entries" name="entries" placeholder="a, b, ...">
+                    <span id="entries-preview" class="mini-preview"></span> 
+                </div>
 
-        <div id="step-controls" style="display: none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9;">
-            <h3>Controle de Execução</h3>
-            <p>Estado Atual: <strong id="current-state-display">-</strong> | Pilha: <strong id="current-stack-display">[]</strong></p>
-            
-            <button type="button" id="btn-next-step" style="background-color: #2b5797; color: white; padding: 10px 20px; cursor: pointer;">
-                Próximo Passo >>
-            </button>
-            <p id="step-message" style="margin-top: 10px; font-style: italic;"></p>
+                <div class="form-group">
+                    <label for="states">Estados:</label>
+                    <input class="input-dark" type="text" id="states" name="states" placeholder="q0, q1, q2...">
+                    <span id="states-preview" class="mini-preview"></span>
+                </div>
+
+                <div class="row-group">
+                    <div class="form-group half">
+                        <label for="first-state">Estado Inicial:</label>
+                        <input class="input-dark" type="text" id="first-state" name="first-state" placeholder="q0">
+                    </div>
+                    <div class="form-group half">
+                        <label for="final-states">Estado(s) Final(is):</label>
+                        <input class="input-dark" type="text" id="final-states" name="final-states" placeholder="qF">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="stack-alphabet">Alfabeto da Pilha:</label>
+                    <input class="input-dark" type="text" id="stack-alphabet" name="alphabet" placeholder="Z, A...">
+                    <span id="stack-alphabet-preview" class="mini-preview"></span>
+                </div>
+
+                <button type="submit" class="btn-primary full-width">▶ Iniciar Computação</button>
+            </form>
+        </aside>
+
+        <main class="right-panel">
+            <div class="visual-header">
+                <h2>Visualização</h2>
+            </div>
+
+            <div class="tape-container-wrapper">
+                <label>Fita (entrada):</label>
+                <div id="tape-visual-container">
+                    </div>
+            </div>
+
+            <div class="graph-stack-wrapper">
+                <div class="graph-area">
+                    <div id="pda-graph" class="mermaid"></div>
+                </div>
+
+                <div id="step-controls" class="controls-area" style="display: none;">
+                    <div class="stack-section">
+                        <label>Pilha:</label>
+                        <div id="stack-visual-container"></div>
+                        <div class="stack-text-value" id="current-stack-display">[]</div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <div class="info-box">
+                            <small>Estado Atual:</small>
+                            <strong id="current-state-display" class="highlight-text">-</strong>
+                        </div>
+                        <div class="info-box message-box">
+                            <p id="step-message">Pronto para iniciar.</p>
+                        </div>
+                        <button type="button" id="btn-next-step" class="btn-accent">Próximo Passo ➔</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <section class="bottom-section">
+        <div class="bottom-header">
+            <h3>Tabela de Transições         (ε)</h3>
+            <button type="button" id="btn-add-transitions" class="btn-secondary">+ Nova Transição</button>
         </div>
-    </form>
-    <button type="submit" form="form">Iniciar Computação</button>
+        
+        <div id="transition-table" class="transitions-grid">
+            </div>
+    </section>
 
-
-    <br>
-    <h2>Vizualização do autômato</h2>
-    <div id="pda-graph" class="mermaid"></div>
-    <span id="computing-result"></span>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: false, 
+            theme: 'dark', 
+            securityLevel: 'loose'
+        });
+    </script>
+    <script src="index.js" defer></script>
+</body>
